@@ -1,0 +1,13 @@
+
+IDS, = glob_wildcards("/icgc/dkfzlsdf/analysis/B260/projects/HipSci/openAccess/endoderm_differentation/data_raw/run_25271/fastq/25271_{cell}_1_val_1.fq.gz")
+
+rule all:
+ input: expand("/omics/groups/OE0540/internal/users/ruehle/rnavelocity/pre_kallisto/hg38_release101/velocity_files_coll/counts/run25271/25271_{cell}", cell=IDS)
+
+
+rule pseudoalign:
+ input:
+  read1 = "/icgc/dkfzlsdf/analysis/B260/projects/HipSci/openAccess/endoderm_differentation/data_raw/run_25271/fastq/25271_{cell}_1_val_1.fq.gz",
+  read2 = "/icgc/dkfzlsdf/analysis/B260/projects/HipSci/openAccess/endoderm_differentation/data_raw/run_25271/fastq/25271_{cell}_2_val_2.fq.gz"
+ output: directory("/omics/groups/OE0540/internal/users/ruehle/rnavelocity/pre_kallisto/hg38_release101/velocity_files_coll/counts/run25271/25271_{cell}")
+ shell: "kallisto quant -i /omics/groups/OE0540/internal/users/ruehle/rnavelocity/pre_kallisto/hg38_release101/velocity_files_coll/hs_cDNA_introns_101.idx -o {output} {input.read1} {input.read2}"

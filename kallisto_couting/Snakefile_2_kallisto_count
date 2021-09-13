@@ -1,0 +1,12 @@
+IDS, = glob_wildcards("/icgc/dkfzlsdf/analysis/B260/projects/HipSci/openAccess/endoderm_differentation/data_raw/run_25757/fastq/25757_{cell}_1_val_1.fq.gz")
+
+rule all:
+ input: expand("/omics/groups/OE0540/internal/users/ruehle/rnavelocity/pre_kallisto/hg38_release101/velocity_files_coll/counts/run25757/25757_{cell}/spliced.csv", cell=IDS)
+
+rule count:
+ input:
+  abundance = "/omics/groups/OE0540/internal/users/ruehle/rnavelocity/pre_kallisto/hg38_release101/velocity_files_coll/counts/run25757/25757_{cell}/abundance.tsv"
+ output: "/omics/groups/OE0540/internal/users/ruehle/rnavelocity/pre_kallisto/hg38_release101/velocity_files_coll/counts/run25757/25757_{cell}/spliced.csv"
+ shell: "Rscript --vanilla v3kallistodown.R {input.abundance} {output}"
+
+
